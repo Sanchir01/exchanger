@@ -1,0 +1,35 @@
+env: "development"
+
+database:
+  host: localhost
+  port: "5440"
+  user: "postgres"
+  dbname: "exchanger"
+  max_attempts: 10
+
+kafka:
+  outbox:
+    retries: 5
+    topic:
+      - "order"
+      - "metrics"
+    brokers:
+      - "localhost:9092"
+
+redis:
+  host: "localhost"
+  port: "6390"
+  password: ""
+  dbnumber: 0
+
+domain: "localhost"
+
+
+
+grpc:
+  port: "44044"
+  timeout: 360s
+
+
+
+
