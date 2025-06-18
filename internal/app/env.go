@@ -18,20 +18,20 @@ type App struct {
 
 func NewApp(ctx context.Context) (*App, error) {
 	cfg := config.InitConfig()
-	lg := logger.SetupLogger(cfg.Env)
+	l := logger.SetupLogger(cfg.Env)
 	database, err := db.NewDataBases(cfg, ctx)
 	if err != nil {
-		lg.Error("db error connect", err.Error())
+		l.Error("db error connect", err.Error())
 		return nil, err
 	}
 	repo := NewRepository(database)
-	srv := NewServices(repo, database)
+	srv := NewServices(repo, l)
 	gRPCSrv := grpcapp.GetGrpcServer()
-	_ = NewHandlers(srv, gRPCSrv)
-	gRPCServer := grpcapp.New(lg, ":"+cfg.GRPC.Port, gRPCSrv)
+	_ = NewHandlers(srv, gRPCSrv, l)
+	gRPCServer := grpcapp.New(l, ":"+cfg.GRPC.Port, gRPCSrv)
 	return &App{
 		Cfg:     cfg,
-		Lg:      lg,
+		Lg:      l,
 		DB:      database,
 		GRPCSrv: gRPCServer,
 	}, nil

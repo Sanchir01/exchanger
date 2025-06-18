@@ -5,6 +5,11 @@ import (
 	"time"
 )
 
+type GetExchangeRate struct {
+	FromCurrency string `json:"from_currency" validate:"required"`
+	ToCurrency   string `json:"to_currency" validate:"required"`
+}
+
 type ExchangeDB struct {
 	ID           uuid.UUID `db:"id"`
 	FromCurrency string    `db:"from_currency"`
